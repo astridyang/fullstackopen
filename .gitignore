@@ -1,0 +1,13 @@
+node_modules/
+/.idea
+.gitignore.project
+.buildpath
+.settings
+/nbproject
+.project
+logs/
+*.log
+bin/
+cache/
+.env
+/bloglist-frontend/cypress/videos
