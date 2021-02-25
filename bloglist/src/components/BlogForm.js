@@ -1,54 +1,41 @@
-import React, { useState } from 'react'
-
-const BlogForm = ({ createBlog }) => {
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
-
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import Togglable from './Togglable'
+import { TextField, Button } from '@material-ui/core'
+const BlogForm = () => {
+    const dispatch = useDispatch()
     const newBlog = async (event) => {
         event.preventDefault()
-        createBlog({
+        const title = event.target.title.value
+        const author = event.target.author.value
+        const url = event.target.url.value
+        event.target.title.value = ''
+        event.target.author.value = ''
+        event.target.url.value = ''
+        const newObject = {
             title, author, url
-        })
-        setTitle('')
-        setAuthor('')
-        setUrl('')
+        }
+        dispatch(createBlog(newObject))
     }
     // onchage todo
     return (
-        <form onSubmit={newBlog}>
-            <div>
-        title
-                <input
-                    type='text'
-                    value={title}
-                    name="title"
-                    id="title"
-                    onChange={({ target }) => setTitle(target.value)}
-                />
-            </div>
-            <div>
-        author
-                <input
-                    type='text'
-                    value={author}
-                    name="author"
-                    id="author"
-                    onChange={({ target }) => setAuthor(target.value)}
-                />
-            </div>
-            <div>
-        url
-                <input
-                    type='text'
-                    value={url}
-                    name="url"
-                    id="url"
-                    onChange={({ target }) => setUrl(target.value)}
-                />
-            </div>
-            <button>create</button>
-        </form>
+        <Togglable buttonLabel="create new" canceLabel="close">
+            <form onSubmit={newBlog}>
+                <div>
+                    <TextField label="title" name='title' />
+                </div>
+                <div>
+                    <TextField label="author" name='author' />
+                </div>
+                <div>
+                    <TextField label="url" name='url' />
+                </div>
+                <div>
+                    <Button variant="contained" color="primary" type="submit">create</Button>
+                </div>
+            </form>
+        </Togglable>
     )
 }
 export default BlogForm
