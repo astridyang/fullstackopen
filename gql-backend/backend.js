@@ -6,6 +6,8 @@ const User = require('./models/user')
 const jwt = require('jsonwebtoken')
 const JWT_SECRET = 'NEED_HERE_A_SECRET_KEY'
 const MONGODB_URI = 'mongodb://localhost/graphql'
+const {PubSub} = require('apollo-server')
+const pubsub = new PubSub()
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true })
     .then(() => {
         console.log('connect to mongodb.')
@@ -14,25 +16,6 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true,
         console.log('error conection to mongdb: ', error.message)
     })
 // let authors = [
-//     {
-//         name: 'Robert Martin',
-//         id: "afa51ab0-344d-11e9-a414-719c6709cf3e",
-//         born: 1952,
-//     },
-//     {
-//         name: 'Martin Fowler',
-//         id: "afa5b6f0-344d-11e9-a414-719c6709cf3e",
-//         born: 1963
-//     },
-//     {
-//         name: 'Fyodor Dostoevsky',
-//         id: "afa5b6f1-344d-11e9-a414-719c6709cf3e",
-//         born: 1821
-//     },
-//     {
-//         name: 'Joshua Kerievsky', // birthyear not known
-//         id: "afa5b6f2-344d-11e9-a414-719c6709cf3e",
-//     },
 //     {
 //         name: 'Sandi Metz', // birthyear not known
 //         id: "afa5b6f3-344d-11e9-a414-719c6709cf3e",
@@ -77,6 +60,7 @@ const typeDefs = gql`
   
   type Token {
     value: String!
+    userGenre: String
   }
   type Query {
     bookCount: Int!
@@ -105,6 +89,9 @@ const typeDefs = gql`
         password: String!
       ): Token
   }
+  type Subscription{
+      bookAdded: Book!
+  }
 `
 
 const resolvers = {
@@ -125,19 +112,15 @@ const resolvers = {
                 return Book.find({}).populate('author', { name: 1 })
             }
         },
-        allAuthors: async () => {
-            let authors = await Author.find({}).lean()
-            authors = authors.map(async author => {
-                let findBooks = await Book.find({ author: author._id })
-                return {
-                    ...author, bookCount: findBooks.length
-                }
-            })
-            return authors
-        },
+        allAuthors: () => Author.find({}),
         me: (root, args, context) => {
             return context.currentUser
         }
+    },
+    Author: {
+        bookCount: (root)=> root.books.length,
+        id: (root) => root._id,
+        name: (root) => root.name
     },
     Mutation: {
         addBook: async (root, args, context) => {
@@ -153,11 +136,21 @@ const resolvers = {
             try {
                 if (!author) {
                     author = new Author({ name: authorName })
-                    await author.save();
                 }
+                author.books = author.books.concat(book._id)
+                await author.save();
                 book.author = author._id
                 await book.save()
-                return book
+                // todo 
+                const newBook = {
+                    id: book._id,
+                    title: book.title,
+                    published: book.published,
+                    genres: book.genres,
+                    author: author
+                }
+                pubsub.publish('BOOK_ADDED', {bookAdded: newBook})
+                return newBook
             } catch (error) {
                 throw new UserInputError(error.message, {
                     invalidArgs: args
@@ -194,7 +187,12 @@ const resolvers = {
                 username: user.username,
                 id: user._id
             }
-            return { value: jwt.sign(tokenForUser, JWT_SECRET) }
+            return { value: jwt.sign(tokenForUser, JWT_SECRET), userGenre: user.favoriteGenre }
+        }
+    },
+    Subscription: {
+        bookAdded:{
+            subscribe: ()=>pubsub.asyncIterator(['BOOK_ADDED'])
         }
     }
 }
@@ -212,6 +210,7 @@ const server = new ApolloServer({
     }
 })
 
-server.listen().then(({ url }) => {
+server.listen().then(({ url, subscriptionsUrl }) => {
     console.log(`Server ready at ${url}`)
+    console.log(`Subscriptions ready at ${subscriptionsUrl}`)
 })
