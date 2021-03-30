@@ -1,0 +1,32 @@
+###
+GET http://localhost:3001/api/diagnoses
+
+###
+GET http://localhost:3001/api/patients
+
+###
+POST http://localhost:3001/api/patients
+Content-Type: application/json
+
+{
+    "name":"qww",
+    "dateOfBirth":"12",
+    "ssn":"s222",
+    "gender":"male",
+    "occupation":123
+}
+###
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+    "type": "HealthCheck",
+    "description":"t3",
+    "date":"12",
+    "specialist":"s222",
+    "diagnosisCodes":"M24.2",
+    "healthCheckRating":1
+}
+
+###
+GET http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667
