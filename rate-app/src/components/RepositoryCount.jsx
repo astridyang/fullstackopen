@@ -17,7 +17,7 @@ const formatNumber = (number) => {
 const RepositoryCount = ({ count, text }) => {
   return (
     <View style={styles.count}>
-      <Text style={styles.emphasis}>{formatNumber(count)}</Text>
+      <Text style={styles.emphasis}  testID={`${text}`}>{formatNumber(count)}</Text>
       <Text>{text}</Text>
     </View>
   );

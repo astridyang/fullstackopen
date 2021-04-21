@@ -5,6 +5,10 @@ import AppBar from './AppBar';
 import theme from '../theme';
 import { Route, Switch, Redirect } from 'react-router-native';
 import SignIn from './SignIn';
+import SignUp from './SignUp';
+import SingleRepository from './SingleRepository';
+import ReviewForm from './ReviewForm';
+import MyReviews from './MyReviews';
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
@@ -27,10 +31,22 @@ const Main = () => {
         <Route path="/signin" exact>
           <SignIn />
         </Route>
+        <Route path="/signup" exact>
+          <SignUp />
+        </Route>
+        <Route path="/createReview" exact>
+          <ReviewForm />
+        </Route>
+        <Route path="/myReviews" exact>
+          <MyReviews />
+        </Route>
+        <Route path="/repository/:id" exact>
+          <SingleRepository />
+        </Route>
         <Redirect to="/" />
       </Switch>
     </View>
   );
 };
-
+// 
 export default Main;

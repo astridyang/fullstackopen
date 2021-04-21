@@ -1,10 +1,9 @@
 import React from "react";
-
-import { View, Pressable, StyleSheet, Button } from "react-native";
+import { View, StyleSheet, Button } from "react-native";
 import { Formik } from "formik";
 import FormikTextInput from "./FormikTextInput";
 import * as yup from "yup";
-import useSignIn from '../hooks/useSignIn';
+import useSignIn from "../hooks/useSignIn";
 const initialValues = {
   username: "",
   password: "",
@@ -19,22 +18,33 @@ const validationSchema = yup.object().shape({
   username: yup.string().required("Username is required."),
   password: yup.string().required("Password is required"),
 });
-const SignInForm = ({ onSubmit }) => {
+export const SignInForm = ({ onSubmit }) => {
   let secureTextEntry = true;
   return (
-    <View style={styles.container}>
-      <FormikTextInput name="username" placeholder="Username" />
-      <FormikTextInput
-        name="password"
-        placeholder="Password"
-        secureTextEntry={secureTextEntry}
-      />
-      <Button title="Sign in" onPress={onSubmit} />
-      {/* <Pressable onPress={onSubmit}>
-          
-          <Text style={styles.submit}>Sign in</Text>
-        </Pressable> */}
-    </View>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ handleSubmit }) => (
+        <View style={styles.container}>
+          <FormikTextInput
+            name="username"
+            placeholder="Username"
+          />
+          <FormikTextInput
+            name="password"
+            placeholder="Password"
+            secureTextEntry={secureTextEntry}
+          />
+          <Button
+            title="Sign in"
+            onPress={handleSubmit}
+            testID="submitButton"
+          />
+        </View>
+      )}
+    </Formik>
   );
 };
 const SignIn = () => {
@@ -45,7 +55,7 @@ const SignIn = () => {
 
     try {
       // todo
-       await signIn({ username, password });
+      await signIn({ username, password });
       // console.log(data);
       // const res = await signIn({ username, password });
       // console.log('sing in: ', res);
@@ -55,13 +65,9 @@ const SignIn = () => {
   };
 
   return (
-    <Formik
-      initialValues={initialValues}
+    <SignInForm
       onSubmit={onSubmit}
-      validationSchema={validationSchema}
-    >
-      {({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} />}
-    </Formik>
+    />
   );
 };
 export default SignIn;

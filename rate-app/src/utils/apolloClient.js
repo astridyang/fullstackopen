@@ -3,11 +3,30 @@ import Constants from "expo-constants";
 // console.log(Constants.manifest);
 import { setContext } from "@apollo/client/link/context";
 const { apolloUri } = Constants.manifest.extra;
+import { relayStylePagination } from "@apollo/client/utilities";
 const httpLink = createHttpLink({
   // Replace the IP address part with your own IP address!
   uri: apolloUri,
 });
-
+const cache = new InMemoryCache({
+  typePolicies: {
+    Query: {
+      fields: {
+        repositories: relayStylePagination(),
+      },
+    },
+    Repository: {
+      fields: {
+        reviews: relayStylePagination(),
+      },
+    },
+    authorizedUser: {
+      fields: {
+        reviews: relayStylePagination(),
+      },
+    },
+  },
+});
 const createApolloClient = (authStorage) => {
   const authLink = setContext(async (_, { headers }) => {
     try {
@@ -27,7 +46,7 @@ const createApolloClient = (authStorage) => {
   });
   return new ApolloClient({
     link: authLink.concat(httpLink),
-    cache: new InMemoryCache(),
+    cache: cache,
   });
 };
 

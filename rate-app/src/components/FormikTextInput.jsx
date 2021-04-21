@@ -15,7 +15,7 @@ const baseInput = {
 };
 const styles = StyleSheet.create({
   errorText: {
-    marginTop: 5,
+    marginTop: 0,
     color: "#d73a4a",
     marginBottom:10,
     display:'flex',
@@ -41,6 +41,7 @@ const FormikTextInput = ({ name, ...props }) => {
         value={field.value}
         error={showError}
         {...props}
+        testID={`${name}Field`}
         style={showError ? styles.inputError : styles.input}
       />
       {showError && <Text style={styles.errorText}>{meta.error}</Text>}

@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, Platform } from "react-native";
+import { View, Text, StyleSheet, Image, Platform, Button } from "react-native";
 import theme from "../theme";
 import RepositoryCount from "./RepositoryCount";
+import * as WebBrowser from "expo-web-browser";
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 5,
+    marginBottom: 10,
     backgroundColor: theme.bgcolors.repository,
     padding: 20,
   },
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   rightContainer: {
     flex: 1,
   },
-  wrapTag: {
+  mt10: {
     marginTop: 10,
   },
   tag: {
@@ -39,18 +40,31 @@ const styles = StyleSheet.create({
       default: "black",
     }),
   },
+  button: {
+    marginTop: 10,
+  },
 });
 
-const RepositoryItem = ({ item }) => {
+const RepositoryItem = ({ item, showBtn }) => {
+  const handleOpenWithWebBrowser = (url) => {
+    // console.log("open url", url)
+    WebBrowser.openBrowserAsync(url);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.flexContainer}>
-        <Image source={{uri:item.ownerAvatarUrl}} style={styles.avatar} />
+        <Image source={{ uri: item.ownerAvatarUrl }} style={styles.avatar} />
         <View style={styles.rightContainer}>
-          <Text style={styles.emphasis}>{item.fullName}</Text>
-          <Text style={styles.description}>{item.description}</Text>
-          <Text style={styles.wrapTag}>
-            <Text style={styles.tag}>{item.language}</Text>
+          <Text style={styles.emphasis} testID="fullName">
+            {item.fullName}
+          </Text>
+          <Text style={styles.description} testID="description">
+            {item.description}
+          </Text>
+          <Text style={styles.mt10}>
+            <Text style={styles.tag} testID="language">
+              {item.language}
+            </Text>
           </Text>
         </View>
       </View>
@@ -60,6 +74,14 @@ const RepositoryItem = ({ item }) => {
         <RepositoryCount count={item.reviewCount} text="Reviews" />
         <RepositoryCount count={item.ratingAverage} text="Ratings" />
       </View>
+      {showBtn ? (
+        <View style={styles.button}>
+          <Button
+            title="Open in Github"
+            onPress={() => handleOpenWithWebBrowser(item.url)}
+          />
+        </View>
+      ) : null}
     </View>
   );
 };
