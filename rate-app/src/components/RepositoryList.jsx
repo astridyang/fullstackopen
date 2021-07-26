@@ -26,6 +26,8 @@ const ItemSeparator = () => <View style={styles.separator} />;
 
 const SortHeader = ({ setOrderOpt, setDir, setSearchQuery }) => {
   const [visible, setVisible] = useState(false);
+
+  
   const [inputValue, setInputValue] = useState("");
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
