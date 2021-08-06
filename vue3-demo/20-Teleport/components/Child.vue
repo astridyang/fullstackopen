@@ -1,21 +1,16 @@
 <template>
   <div class="child">
     <h2>Child component</h2>
-    <p>{{sum}}</p>
+    <Offspring></Offspring>
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import Offspring from "./Offspring.vue";
 export default {
   name: "Child",
-  setup() {
-    let sum = ref(0);
-    return new Promise((resolve, reject)=>{
-      setTimeout(()=>{
-        resolve({sum})
-      }, 2000)
-    })
+  components: {
+    Offspring,
   },
 };
 </script>

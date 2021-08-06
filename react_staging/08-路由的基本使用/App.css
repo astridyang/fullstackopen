@@ -1,0 +1,27 @@
+/*base*/
+*{
+  margin: 0;
+  padding: 0;
+}
+div{
+  box-sizing: border-box;
+}
+li{
+  list-style: none;
+}
+button{
+  padding:5px;
+}
+button.dangerous{
+  border: 1px solid rgb(233, 64, 64);
+  background: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.todo-app{
+  width: 300px;
+  border: 1px solid skyblue;
+  padding: 10px 15px;
+  border-radius: 10px;
+  margin: 100px auto 0;
+}

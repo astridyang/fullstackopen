@@ -1,0 +1,61 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="./prop-types.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      class Login extends React.Component {
+        state = {
+          username: "",
+          password: "",
+        };
+        // 高阶函数：
+        /*
+          1. 接收函数作为参数
+          2. 返回值为函数
+        */
+        // 柯里化：通过函数调用继续返回函数，实现多次接收参数
+        saveFormdata = (dataType) => {
+          return (event) => {
+            this.setState({
+              [dataType]: event.target.value,
+            });
+          };
+        };
+        saveFormdata2 = (dataType, event) => {
+          this.setState({
+            [dataType]: event.target.value,
+          });
+        };
+        handleSubmit = (event) => {
+          event.preventDefault();
+          let { username, password } = this.state;
+          console.log(`your input is: ${username}, ${password}`);
+        };
+        render() {
+          return (
+            <form action="" onSubmit={this.handleSubmit}>
+              <input type="text" onChange={this.saveFormdata("username")} />
+              <input
+                type="password"
+                onChange={(event) => {
+                  this.saveFormdata2("password", event);
+                }}
+              />
+              <button>submit</button>
+            </form>
+          );
+        }
+      }
+      ReactDOM.render(<Login />, document.getElementById("app"));
+    </script>
+  </body>
+</html>

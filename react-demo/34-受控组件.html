@@ -1,0 +1,48 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="./prop-types.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      class Login extends React.Component {
+        state = {
+          username: "",
+          password: "",
+        };
+        saveUsername = (event) => {
+          this.setState({
+            username: event.target.value,
+          });
+        };
+        savePassword = (event) => {
+          this.setState({
+            password: event.target.value,
+          });
+        };
+        handleSubmit = (event) => {
+          event.preventDefault();
+          let { username, password } = this.state;
+          console.log(`your input is: ${username}, ${password}`);
+        };
+        render() {
+          return (
+            <form action="" onSubmit={this.handleSubmit}>
+              <input type="text" onChange={this.saveUsername} />
+              <input type="password" onChange={this.savePassword} />
+              <button>submit</button>
+            </form>
+          );
+        }
+      }
+      ReactDOM.render(<Login />, document.getElementById("app"));
+    </script>
+  </body>
+</html>

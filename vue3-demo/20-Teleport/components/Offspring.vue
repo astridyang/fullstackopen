@@ -1,17 +1,16 @@
 <template>
   <div class="offspring">
-    <h3>Offsprint component</h3>
-    <p>
-      {{name}}---{{price}}
-    </p>
+    <h3>Offspring component</h3>
+    <Dialog></Dialog>
   </div>
 </template>
 
 <script>
 import { inject,toRefs } from '@vue/runtime-core'
-
+import Dialog from './Dialog.vue'
 export default {
-  name:'Offsprint',
+  name:'Offspring',
+  components:{Dialog},
   setup(){
     let car = inject('car')
     return{

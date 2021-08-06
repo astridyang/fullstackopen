@@ -1,0 +1,48 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="./prop-types.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      class Life extends React.Component {
+        state = {
+          opacity: 1,
+        };
+        componentDidMount() {
+          console.log("did mount")
+          this.timer = setInterval(() => {
+            let { opacity } = this.state;
+            opacity -= 0.1;
+            if (opacity <= 0) opacity = 1;
+            this.setState({ opacity });
+          }, 200);
+        }
+        componentWillUnmount() {
+          console.log("will unmount")
+          clearInterval(this.timer);
+        }
+        removeComp = ()=>{
+          ReactDOM.unmountComponentAtNode(document.getElementById("app"))
+        }
+        render() {l
+          let {opacity} = this.state
+          return (
+            <div >
+              <p style={{"opacity":opacity}}>aux text sssssssssss</p>
+              <button onClick={this.removeComp}>click to remove</button>
+            </div>
+          );
+        }
+      }
+      ReactDOM.render(<Life />, document.getElementById("app"));
+    </script>
+  </body>
+</html>

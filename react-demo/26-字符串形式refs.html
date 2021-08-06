@@ -1,0 +1,51 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="./prop-types.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      //过时api：字符串类型refs，有效率问题
+      class Demo extends React.Component {
+        showData = () => {
+          console.log(this);
+          let { input1 } = this.refs;
+          console.log(input1.value);
+        };
+        showData2 = () => {
+          let { input2 } = this.refs;
+          console.log("input2 value: ", input2.value);
+        };
+        render() {
+          return (
+            <div>
+              <p>
+                <input ref="input1" type="text" placeholder="input some word" />
+              </p>
+              <p>
+                <button onClick={this.showData}>show left data</button>
+              </p>
+              <p>
+                <input
+                  ref="input2"
+                  onBlur={this.showData2}
+                  type="text"
+                  placeholder="input some word"
+                />
+              </p>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById("app"));
+    </script>
+  </body>
+</html>

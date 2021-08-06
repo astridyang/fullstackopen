@@ -1,0 +1,59 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .news_list {
+        width: 300px;
+        height: 150px;
+        background: skyblue;
+        overflow: auto;
+      }
+      .news_list li {
+        height: 30px;
+      }
+    </style>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="./prop-types.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      class NewsList extends React.Component {
+        state = { newsList: [] };
+        // 开启监听、定时器，发送请求时用
+        componentDidMount() {
+          // setInterval(() => {
+          //   let { newsList } = this.state;
+          //   let news = `新闻${newsList.length+1}`;
+          //   this.setState({
+          //     newsList: [news, ...newsList],
+          //   });
+          // }, 1000);
+        }
+        getSnapshotBeforeUpdate() {
+          return this.refs.newsList.scrollHeight;
+        }
+        componentDidUpdate(prevProps, prevState, height) {
+          this.refs.newsList.scrollTop += this.refs.newsList.scrollHeight - height;
+        }
+        render() {
+          let { newsList } = this.state;
+          return (
+            <div>
+              <ul ref="newsList" className="news_list">
+                {newsList.map((item, index) => <li key={index}>{item}</li>)}
+              </ul>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<NewsList />, document.getElementById("app"));
+    </script>
+  </body>
+</html>

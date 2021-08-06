@@ -1,0 +1,74 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="react.development.js"></script>
+    <script src="react-dom.development.js"></script>
+    <script src="babel.min.js"></script>
+    <script src="./prop-types.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+      // 内联函数形式，render时会执行两次，但无关紧要
+      class Demo extends React.Component {
+        myRef = React.createRef() // 只能存一个
+        showData = () => {
+          console.log(this);
+          let { input1 } = this;
+          console.log(input1.value);
+          console.log(this.myRef.current) // button
+        };
+        showData2 = () => {
+          let { input2 } = this;
+          console.log("input2 value: ", input2.value);
+        };
+        // 类的绑定函数形式
+        saveInput = (c) => {
+          this.input2 = c;
+        };
+        showData3 = (event)=>{
+          console.log('input3 value: ', event.target.value)
+        }
+        render() {
+          return (
+            <div>
+              <p>
+                <input
+                  ref={(c) => (this.input1 = c)}
+                  type="text"
+                  placeholder="input some word"
+                />
+              </p>
+              <p>
+                <button ref={this.myRef} onClick={this.showData}>
+                  show left data
+                </button>
+              </p>
+              <p>
+                <input
+                  ref={this.saveInput}
+                  onBlur={this.showData2}
+                  type="text"
+                  placeholder="input some word"
+                />
+              </p>
+              <p>
+                <input
+                  onBlur={this.showData3}
+                  onBlur={this.showData3}
+                  type="text"
+                  placeholder="input some word"
+                />
+              </p>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Demo />, document.getElementById("app"));
+    </script>
+  </body>
+</html>

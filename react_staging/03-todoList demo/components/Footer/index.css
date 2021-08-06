@@ -1,0 +1,12 @@
+.todo-footer {
+  display: flex;
+}
+.todo-footer .left{
+  flex: 1;
+}
+.todo-footer input[type=checkbox]{
+  margin-right: 10px;
+}
+.todo-footer span{
+  display: inline-block;
+}
