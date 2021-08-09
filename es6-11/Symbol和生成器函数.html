@@ -1,0 +1,99 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div></div>
+    <div></div>
+    <div></div>
+    <script>
+      let game = {
+        name: 'fgo',
+        up: function(){
+          console.log('up----')
+        },
+        down: function(){
+          console.log('down-----')
+        },
+        [Symbol.for('down')]:function(){
+          console.log('how to revoke---')
+        }
+      }
+      let methods = {
+        up: Symbol()
+      }
+      game[methods.up] = function(){
+        console.log('new up ---')
+      }
+      // console.log(game[methods.up]())
+      // console.log(game[Symbol.for('down')]())
+      const project =  {
+        name:'baseball',
+        todos:["java", 'javascript', 'redis'],
+        [Symbol.iterator](){
+          let index = 0;
+          return {
+            next:()=>{
+              if(index<this.todos.length){
+                return {value:this.todos[index++], done: false}
+              }else{
+                return {value:'', done: true}
+              }
+            }
+          }
+        }
+      }
+      for(let v of project){
+        // console.log(v, '@')
+      }
+      // 生成器，异步编程：文件、网络、数据库操作
+      function timer(text, time){
+        setTimeout(()=>{
+          console.log(text)
+          iterator.next()
+        },time)
+      }
+      function * gen(){
+        yield timer('111', 1000)
+        yield timer('222', 2000)
+        yield timer('333', 3000)
+      }
+      // let iterator = gen()
+      // iterator.next()
+      function getUsers(){
+        setTimeout(()=>{
+          let data = '用户数据'
+          iterator2.next(data) // 传入的参数作为第一个yield语句的返回值
+        }, 1000)
+      }
+      function getOrders(){
+        setTimeout(()=>{
+          let data = '订单数据'
+          iterator2.next(data)
+        }, 1000)
+      }
+      function getGoods(){
+        setTimeout(()=>{
+          let data = '商品数据'
+          iterator2.next(data)
+        }, 1000)
+      }
+      function* gen2(){
+        let users = yield getUsers()
+        console.log(users)
+        let orders = yield getOrders()
+        console.log(orders)
+        let goods = yield getGoods()
+        console.log(goods)
+      }
+      let iterator2 = gen2()
+      iterator2.next()
+    </script>
+  </body>
+
+</body>
+</html>
+ 

@@ -1,0 +1,86 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // Object.fromEntries
+      // 二维数组
+      let fgo = [
+        ["price", 600],
+        ["servents", "tamamo, azuna"],
+      ];
+      console.log(Object.fromEntries(fgo));
+      // map
+      let m = new Map();
+      m.set("study", "fe");
+      console.log(Object.fromEntries(m));
+      let str = "    Object   ";
+      console.log(str.trimStart());
+      console.log(str.trimEnd());
+      // flat flatMap
+      let arr = [1, 2, 3, [4, 5, [6, 7, 8]]];
+      // 参数为深度
+      console.log(arr.flat(2));
+      let arr2 = [1, 2, 3, 4];
+      const result2 = arr2.flatMap((item) => [item * 10]);
+      console.log(result2);
+      class Girl {
+        name;
+        #age;
+        constructor(name, age) {
+          this.name = name;
+          this.#age = age;
+        }
+        intro() {
+          console.log(this.name);
+          console.log(this.#age);
+        }
+      }
+      let girl = new Girl("tamamo", 20);
+      // console.log(girl.#age)
+      girl.intro();
+      // Promise allSettled
+      const p1 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("success 1");
+        }, 1000);
+      });
+      const p2 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve("success 2");
+        }, 1000);
+      });
+      const p3 = new Promise((resolve, reject) => {
+        setTimeout(() => {
+          reject("fail 3");
+        }, 1000);
+      });
+      console.log(Promise.allSettled([p1, p3]));
+      console.log(Promise.all([p1, p2]));
+      const str2 = `<ul>
+      <li>
+        <a href="">tamamo</a>
+        <p>date: 2017</p>
+      </li>
+      <li>
+        <a href="">azuna</a>
+        <p>date: 2020</p>
+      </li>
+    </ul>`;
+      let reg = /<a.*?>(.*?)<\/a>.*?<p>(.*?)<\/p>/gs;
+      let regRes = str2.matchAll(reg);
+      let result3 = [...regRes];
+      console.log(result3);
+      let fgo2 = {
+        tamamo: {
+          type: "red",
+        },
+      };
+      console.log(fgo2?.tamamo?.type)
+    </script>
+  </body>
+</html>

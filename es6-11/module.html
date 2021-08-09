@@ -1,0 +1,33 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      使用babel
+      1. 安装工具 babel-cli babel-preset-env browserify
+      2. npx babel src -d dest --presets=babel-preset-env (局部安装)
+      3. 打包 npx browserify dist/app.js -o dist/bundle.js
+    </div>
+    <div></div>
+    <div></div>
+    <script type="module">
+      // 默认引入
+      // import * as m3 from './module/m1.js'
+      // 解构赋值形式引入
+      import {default as m1} from './module/m1.js'
+      console.log(m1.name)
+      // 简便形式，针对默认暴露
+      import m2 from './module/m1.js'
+      m2.play()
+    </script>
+    <!-- 在入口文件引入 -->
+    <!-- <script src="./app.js" type="module"></script> -->
+  </body>
+
+</body>
+</html>
+ 

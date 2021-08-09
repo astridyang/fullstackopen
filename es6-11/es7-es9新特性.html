@@ -1,0 +1,89 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    
+    <script>
+      let arr = ['fgo', 'bb']
+      console.log(arr.includes('fgo'))
+      console.log(2**10)
+      let obj = {
+        name: 'fgo',
+        price: 600,
+        servents:['bb','tamamo']
+      }
+      console.log(Object.keys(obj))
+      console.log(Object.values(obj))
+      console.log(Object.entries(obj))
+      let m = new Map(Object.entries(obj))
+      console.log(m)
+      console.log(m.get('servents'))
+      function connect({host, port, ...user}){
+        console.log(host)
+        console.log(port)
+        console.log(user)
+      }
+      connect({
+        host:'127.0.0.1',
+        port: 5000,
+        username: 'root',
+        password: 'password'
+      })
+      let servent1 = {
+        first:'bb'
+      }
+      let servent2 = {
+        second: 'tamamo',
+      }
+      let team = {...servent1, ...servent2}
+      console.log(team)
+      let str = '<a href="https://news.fate-go.jp">fate-go news</a>'
+      const reg = /<a href="(.*)">(.*)<\/a>/;
+      const result = reg.exec(str);
+      console.log(result)
+      console.log(result[1])
+      console.log(result[2])
+      // 正则扩展
+      const reg2 = /<a href="(?<url>.*)">(?<text>.*)<\/a>/;
+      const result2 = reg2.exec(str)
+      console.log(result2)
+      console.log(result2.groups.url)
+      console.log(result2.groups.text)
+      // 正向断言
+      const str2 = '对象2145正则600结尾'
+      const reg3 = /\d+(?=结)/
+      const result3 = reg3.exec(str2)
+      console.log('正向断言：', result3)
+      const reg4 = /(?<=象)\d+/
+      const result4 = reg4.exec(str2)
+      console.log('反向断言：', result4)
+      // dotAll 模式
+      // dot . 元字符 除换行符以外的任意字符
+      const str5 = `<ul>
+      <li>
+        <a href="">tamamo</a>
+        <p>date: 2017</p>
+      </li>
+      <li>
+        <a href="">azuna</a>
+        <p>date: 2020</p>
+      </li>
+    </ul>`
+    const reg5 = /<a.*?>(.*?)<\/a>.*?<p>(.*?)<\/p>/gs;
+      console.log('dotAll模式：')
+      let result5;
+      let data = []
+      while(result5 = reg5.exec(str5)){
+        data.push({title: result5[1], date: result5[2]})
+      }
+      console.log(data)
+    </script>
+  </body>
+
+</body>
+</html>
+ 
