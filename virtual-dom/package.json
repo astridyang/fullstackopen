@@ -1,0 +1,20 @@
+{
+  "name": "virtual-dom",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "snabbdom": "^3.0.3"
+  },
+  "devDependencies": {
+    "webpack": "5",
+    "webpack-cli": "3",
+    "webpack-dev-server": "3"
+  }
+}
