@@ -15,6 +15,8 @@
 <script>
 // import Child from './components/Child.vue'
 import {defineAsyncComponent} from 'vue'
+import axios from 'axios'
+
 const Child = defineAsyncComponent(()=>import('./components/Child'))
 export default {
   name:'App',
@@ -22,7 +24,9 @@ export default {
     Child
   },
   setup() {
-    
+    axios.get('/api/students').then(response=>{
+      console.log(response)
+    })
   },
 };
 </script>
